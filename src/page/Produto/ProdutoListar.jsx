@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 
 
 export default function ProdutoListar() {
-    debugger
+    
     const data = useLoaderData();
 
     const [produto, SetProduto] = useState([]);

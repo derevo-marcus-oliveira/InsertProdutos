@@ -34,6 +34,8 @@ export default function ProdutoConsultar() {
                     </div>
                 </Form>
 
+                <hr />
+
                 <Form method="post" id="form" className="form-container">
 
                     <div className="form-context">

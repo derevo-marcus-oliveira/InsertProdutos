@@ -25,9 +25,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        path: "/produto/listar",
+        path: "/produto/listar",        
+        element: <ProdutoLista />,
         loader: async () => {
-          debugger
+          
           var dados;
 
           await axios("http://localhost:4003/Buscar", {
@@ -44,27 +45,25 @@ const router = createBrowserRouter([
 
           return dados;
 
-        },
-        element: <ProdutoLista />,
+        }
       },
       {
         path: "/produto/consultar",
         element: <ProdutoConsultar />,
         action: async ({ request, params }) => {
-          debugger
+          
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
-
+          var dados;
           await axios.get("http://localhost:4003/Buscar"+data.id_consulta)
-            .then((response) => {
-              debugger
+            .then((response) => {              
               dados = response.data
             })
             .catch((error) => {
               console.log(error)
             });
 
-          return []
+          return dados
         }
       },
       {
@@ -95,17 +94,64 @@ const router = createBrowserRouter([
         path: "/enum/listar",
         element: <EnumeradorListar />,
         loader: async () => {
+          
+          var dados;
 
-          return [];
+          await axios("http://localhost:4003/BuscarEnum", {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+          })
+            .then((response) => {
+
+              dados = response.data
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+
+          return dados;
+
         }
       },
       {
         path: "/enum/consultar",
         element: <EnumeradorConsultar />,
+        action: async ({ request, params }) => {
+          
+          const formData = await request.formData();
+          const data = Object.fromEntries(formData);
+          
+          var dados;
+
+          await axios.get("http://localhost:4003/Buscar"+data.id)
+            .then((response) => {              
+              dados = response.data
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+
+          return dados
+        }
       },
       {
-        path: "/enum/manipulsalvarar",
+        path: "/enum/salvar",
         element: <EnumeradorSalvar />,
+        action: async ({ request, params }) => {
+
+          const formData = await request.formData();
+          const data = Object.fromEntries(formData);
+
+          await axios.post("http://localhost:4003/AdicionarEnum", data)
+            .then((response) => {
+              console.log("Sucesso", response)
+            })
+            .catch((error) => {
+              console.log("Erro", error)
+            })
+
+          return []
+        }
       }
     ]
   }
