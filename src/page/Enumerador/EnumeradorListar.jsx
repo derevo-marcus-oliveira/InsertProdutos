@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 
-export default function EnumeradorListar () {
+export default function EnumeradorListar() {
 
     const data = useLoaderData();
 
@@ -16,26 +16,26 @@ export default function EnumeradorListar () {
     return (
         <>
             <div className="Context">
-            <table>
-            <tr>
-                <th>Id</th>
-                <th>Tipo</th>
-                <th>Descrição</th>
-            </tr>
-            {enums.map((item) => {
-                return (
+                <table>
                     <tr>
-                        <td>{item.id}</td>
-                        <td>{item.tipo}</td>
-                        <td>{item.descricao}</td>
+                        <th>Id</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
                     </tr>
-                );
-            })}
+                    {enums.map((item, id) => {
+                        return (
+                            <tr key={id}>
+                                <td>{item.id}</td>
+                                <td>{item.tipo}</td>
+                                <td>{item.descricao}</td>
+                            </tr>
+                        );
+                    })}
 
-        </table>
+                </table>
 
 
-            </div>        
+            </div>
         </>
     )
 }

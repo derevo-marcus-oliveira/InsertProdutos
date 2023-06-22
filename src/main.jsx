@@ -25,10 +25,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        path: "/produto/listar",        
+        path: "/produto/listar",
         element: <ProdutoLista />,
         loader: async () => {
-          
+
           var dados;
 
           await axios("http://localhost:4003/Buscar", {
@@ -51,12 +51,12 @@ const router = createBrowserRouter([
         path: "/produto/consultar",
         element: <ProdutoConsultar />,
         action: async ({ request, params }) => {
-          
+
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           var dados;
-          await axios.get("http://localhost:4003/Buscar"+data.id_consulta)
-            .then((response) => {              
+          await axios.get("http://localhost:4003/Buscar" + data.id_consulta)
+            .then((response) => {
               dados = response.data
             })
             .catch((error) => {
@@ -69,23 +69,44 @@ const router = createBrowserRouter([
       {
         path: "/produto/salvar",
         element: <ProdutoSalvar />,
-        action: async ({ request, params }) => {
+        loader: async () => {
 
+          var dados;
+
+          await axios("http://localhost:4003/BuscarEnum", {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+          })
+            .then((response) => {
+
+              dados = response.data
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+
+          return dados;
+        },
+        action: async ({ request, params }) => {
+          
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
 
-          data.especificacoes = JSON.parse(data.especificacoes);
-          data.imagens = JSON.parse(data.imagens);
-          data.avaliacoes = JSON.parse(data.avaliacoes);
-          data.commentarios = JSON.parse(data.commentarios);
+          if (data.nome != "") {
+            
+            data.especificacoes = JSON.parse(data.especificacoes);
+            data.imagens = JSON.parse(data.imagens);
+            data.avaliacoes = JSON.parse(data.avaliacoes);
+            data.commentarios = JSON.parse(data.commentarios);
 
-          await axios.post("http://localhost:4003/Adicionar", data)
-            .then((response) => {
-              console.log("Sucesso", response)
-            })
-            .catch((error) => {
-              console.log("Erro", error)
-            })
+            await axios.post("http://localhost:4003/Adicionar", data)
+              .then((response) => {
+                console.log("Sucesso", response)
+              })
+              .catch((error) => {
+                console.log("Erro", error)
+              });
+          }
 
           return []
         }
@@ -94,7 +115,7 @@ const router = createBrowserRouter([
         path: "/enum/listar",
         element: <EnumeradorListar />,
         loader: async () => {
-          
+
           var dados;
 
           await axios("http://localhost:4003/BuscarEnum", {
@@ -117,14 +138,14 @@ const router = createBrowserRouter([
         path: "/enum/consultar",
         element: <EnumeradorConsultar />,
         action: async ({ request, params }) => {
-          
+
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           
           var dados;
 
-          await axios.get("http://localhost:4003/Buscar"+data.id)
-            .then((response) => {              
+          await axios.get("http://localhost:4003/BuscarEnum" + data.id)
+            .then((response) => {
               dados = response.data
             })
             .catch((error) => {
@@ -152,7 +173,51 @@ const router = createBrowserRouter([
 
           return []
         }
-      }
+      },
+      {
+        path: "/enum/excluir/:id",
+        element: <EnumeradorConsultar />,
+        loader: async ({ request, params }) => {
+          
+          var dados;
+
+          await axios.delete("http://localhost:4003/ExcluirEnum", {
+            data: {
+              id: params.id
+            }
+          })
+            .then((response) => {
+              dados = response.data
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+
+          return dados
+        }
+      },
+      {
+        path: "/enum/alterar/:enum",
+        element: <EnumeradorConsultar />,
+        action: async ({ request, params }) => {
+          
+          const data = JSON.parse(params.enum);
+
+          await axios.post("http://localhost:4003/AlterarEnum",{
+            id: data.id,
+            tipo: data.tipo,
+            descricao: data.descricao
+          })
+            .then((response) => {
+              console.log("Sucesso")
+            })
+            .catch((error) => {
+              console.log(error)
+            });
+
+          return []
+        }
+      },
     ]
   }
 ])

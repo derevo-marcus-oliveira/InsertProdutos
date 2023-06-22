@@ -6,7 +6,7 @@ export default function EnumeradorSalvar() {
         <>
             <div className="Context">
 
-                <Form method="post">
+                <Form className="form-context" method="post">
                     <div className="form-item">
 
                         <label className="form-label" htmlFor="tipo">Tipo</label>
@@ -22,7 +22,14 @@ export default function EnumeradorSalvar() {
                     </div>
 
                     <div className="form-item">
-                        <button className="form-button button-success" type="submit">Create</button>
+                        <button className="form-button button-success" type="submit" onClick={() => {
+
+                            if (document.querySelector("#tipo").value == "" || document.querySelector("#tipo").value == null
+                                && document.querySelector("#descricao").value == "" || document.querySelector("#descricao").value == null) {
+                                return false
+                            }
+
+                        }}>Create</button>
                     </div>
                 </Form>
 

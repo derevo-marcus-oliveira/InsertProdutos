@@ -15,7 +15,8 @@ export default function ProdutoListar() {
 
 
     return (
-        <table>
+        <div className="context">
+            <table>
             <tr>
                 <th>Id</th>
                 <th>Tipo</th>
@@ -27,9 +28,9 @@ export default function ProdutoListar() {
                 <th>Avaliações</th>
                 <th>Comentarios</th>
             </tr>
-            {produto.map((item) => {
+            {produto.map((item, id) => {
                 return (
-                    <tr>
+                    <tr key={id}>
                         <td>{item.id}</td>
                         <td>{item.tipo}</td>
                         <td>{item.nome}</td>
@@ -44,5 +45,6 @@ export default function ProdutoListar() {
             })}
 
         </table>
+        </div>
     )
 }

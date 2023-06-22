@@ -1,27 +1,38 @@
-import { useState } from "react";
-import { Form } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Form, useLoaderData } from "react-router-dom";
 
 
 export default function ProdutoSalvar() {
-    
-    const [especificacao, SetEspecificao] = useState([])
-    const [avaliacao, SetAvaliacao] = useState([])
-    const [imagem, SetImagem] = useState([])
-    const [comentario, SetComentario] = useState([])
 
+    var data = useLoaderData();
+
+    const [enumerador, SetEnumerador] = useState([]);
+    const [especificacao, SetEspecificao] = useState([]);
+    const [avaliacao, SetAvaliacao] = useState([]);
+    const [imagem, SetImagem] = useState([]);
+    const [comentario, SetComentario] = useState([]);
+
+    useEffect(() => { SetEnumerador(data); }, [])
 
 
     return (
         <>
-            <div className="">
-                <Form method="post" id="form" className="form-container">
+            <div className="context">
+                <Form method="post" id="form" className="form-context">
 
                     <div className="form-context">
 
                         <div className="form-item">
+
                             <label className="form-label" htmlFor="Tipo">Tipo</label>
                             <br />
-                            <input className="form-input" type="text" name="tipo" id="Tipo" />
+                            <select name="tipo" id="tipo" style={{padding: 5, width: 185}}>
+                                {enumerador.map((item) => {
+                                    return (
+                                        <option key={item.id} value={item.tipo}>{item.descricao}</option>
+                                    )
+                                })}
+                            </select>
                         </div>
 
 
@@ -72,7 +83,7 @@ export default function ProdutoSalvar() {
 
                         </div>
                         <div className="form-item">
-                            <button className="form-button button-success" type="button" onClick={() => {                                
+                            <button className="form-button button-success" type="button" onClick={() => {
 
                                 if (document.getElementById("especificacao").value == '' || document.getElementById("especificacao").value == null
                                     && document.getElementById("especificacao_descricao").value == '' || document.getElementById("especificacao_descricao").value == null) {
@@ -97,14 +108,20 @@ export default function ProdutoSalvar() {
                             </button>
                         </div>
                         <div className="form-list">
-                            {especificacao.map((item => {
-                                
+                            {especificacao.map((item, id) => {
+
                                 return (
                                     <li key={item.id_especificacao}>
                                         {item.especificacao} - {item.especificacao_descricao}
+                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                            
+                                            var arr = especificacao;
+                                            arr.splice(id, 1);
+                                            SetEspecificao(arr);
+                                        }}>X</button>
                                     </li>
                                 )
-                            }))}
+                            })}
                         </div>
                     </div>
                     <hr />
@@ -141,14 +158,20 @@ export default function ProdutoSalvar() {
                         </div>
 
                         <div className="form-list">
-                            {imagem.map((item => {
-                                
+                            {imagem.map((item, id) => {
+
                                 return (
                                     <li key={item.id_imagem}>
                                         {item.url}
+                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                            
+                                            var arr = imagem;
+                                            arr.splice(id, 1);
+                                            SetImagem(arr);
+                                        }}>X</button>
                                     </li>
                                 )
-                            }))}
+                            })}
                         </div>
                     </div>
                     <hr />
@@ -196,14 +219,20 @@ export default function ProdutoSalvar() {
                         </div>
 
                         <div className="form-list">
-                            {avaliacao.map((item => {
-                                
+                            {avaliacao.map((item, id) => {
+
                                 return (
                                     <li key={item.id_avaliacao}>
                                         {item.avaliacao} - {item.descricao_avaliacao}
+                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                            
+                                            var arr = avaliacao;
+                                            arr.splice(id, 1);
+                                            SetAvaliacao(arr);
+                                        }}>X</button>
                                     </li>
                                 )
-                            }))}
+                            })}
                         </div>
 
                     </div>
@@ -251,14 +280,20 @@ export default function ProdutoSalvar() {
                         </div>
 
                         <div className="form-list">
-                            {comentario.map((item => {
-                                
+                            {comentario.map((item, id) => {
+
                                 return (
                                     <li key={item.id_comentario}>
                                         {item.usuario_nome} - {item.comentario}
+                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                            
+                                            var arr = comentario;
+                                            arr.splice(id, 1);
+                                            SetComentario(arr);
+                                        }}>X</button>
                                     </li>
                                 )
-                            }))}
+                            })}
                         </div>
 
 
