@@ -90,9 +90,11 @@ export default function ProdutoSalvar() {
                                     return
                                 }
                                 else {
+                                    
+                                    var id = especificacao.length > 0 ? especificacao.at(-1).id_especificacao + 1 : 1;
 
                                     var obj = {
-                                        id_especificacao: especificacao.length,
+                                        id_especificacao: id,
                                         especificacao: document.getElementById("especificacao").value,
                                         especificacao_descricao: document.getElementById("especificacao_descricao").value
                                     };
@@ -112,8 +114,8 @@ export default function ProdutoSalvar() {
 
                                 return (
                                     <li key={item.id_especificacao}>
-                                        {item.especificacao} - {item.especificacao_descricao}
-                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                        <span style={{fontWeight: 600}}>{item.especificacao}</span> - {item.especificacao_descricao}
+                                        <button className="btn-remove list-btn-remove"   onClick={() => {
                                             
                                             var arr = especificacao;
                                             arr.splice(id, 1);
@@ -142,8 +144,11 @@ export default function ProdutoSalvar() {
                                     return;
                                 }
                                 else {
+                                    
+                                    var id = imagem.length > 0 ? imagem.at(-1).id_imagem + 1 : 1;
+
                                     var obj = {
-                                        id_imagem: imagem.length,
+                                        id_imagem: id,
                                         url: document.getElementById("url").value
                                     };
 
@@ -163,7 +168,7 @@ export default function ProdutoSalvar() {
                                 return (
                                     <li key={item.id_imagem}>
                                         {item.url}
-                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                        <button  className="btn-remove list-btn-remove"   onClick={() => {
                                             
                                             var arr = imagem;
                                             arr.splice(id, 1);
@@ -202,8 +207,10 @@ export default function ProdutoSalvar() {
                                 }
                                 else {
 
+                                    var id = avaliacao.length > 0 ? avaliacao.at(-1).id_avaliacao + 1 : 1;
+
                                     var obj = {
-                                        id_avaliacao: avaliacao.length,
+                                        id_avaliacao: id,
                                         avaliacao: document.getElementById("avaliacao").value,
                                         descricao_avaliacao: document.getElementById("descricao_avaliacao").value
                                     };
@@ -224,7 +231,7 @@ export default function ProdutoSalvar() {
                                 return (
                                     <li key={item.id_avaliacao}>
                                         {item.avaliacao} - {item.descricao_avaliacao}
-                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                        <button  className="btn-remove list-btn-remove"   onClick={() => {
                                             
                                             var arr = avaliacao;
                                             arr.splice(id, 1);
@@ -262,9 +269,11 @@ export default function ProdutoSalvar() {
                                     return;
                                 }
                                 else {
+                                    
+                                    var id = comentario.at(-1).id_comentario + 1 || 1;
 
                                     var obj = {
-                                        id_comentario: comentario.length,
+                                        id_comentario: id,
                                         usuario_nome: document.getElementById("usuario_nome").value,
                                         comentario: document.getElementById("comentario").value
                                     };
@@ -285,7 +294,7 @@ export default function ProdutoSalvar() {
                                 return (
                                     <li key={item.id_comentario}>
                                         {item.usuario_nome} - {item.comentario}
-                                        <button style={{margin: "0 15px", padding: "0 6px", borderRadius: "50%"}} onClick={() => {
+                                        <button  className="btn-remove list-btn-remove"  onClick={() => {
                                             
                                             var arr = comentario;
                                             arr.splice(id, 1);

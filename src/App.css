@@ -38,3 +38,13 @@ td {
   box-shadow: 0 0 0 1px black;
 
 }
+
+.btn-remove {
+  background: red;
+}
+
+.list-btn-remove {
+  margin: 0 15px;
+  padding: 0 6px; 
+  border-radius: 50%;
+}

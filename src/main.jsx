@@ -88,25 +88,34 @@ const router = createBrowserRouter([
           return dados;
         },
         action: async ({ request, params }) => {
-          
+
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
 
-          if (data.nome != "") {
-            
+          if (data.especificacoes) {
             data.especificacoes = JSON.parse(data.especificacoes);
-            data.imagens = JSON.parse(data.imagens);
-            data.avaliacoes = JSON.parse(data.avaliacoes);
-            data.commentarios = JSON.parse(data.commentarios);
-
-            await axios.post("http://localhost:4003/Adicionar", data)
-              .then((response) => {
-                console.log("Sucesso", response)
-              })
-              .catch((error) => {
-                console.log("Erro", error)
-              });
           }
+
+          if (data.imagens) {
+            data.imagens = JSON.parse(data.imagens);
+          }
+
+          if (data.avaliacoes) {
+            data.avaliacoes = JSON.parse(data.avaliacoes);
+          }
+
+          if (data.commentarios) {
+            data.commentarios = JSON.parse(data.commentarios);
+          }
+
+
+          await axios.post("http://localhost:4003/Adicionar", data)
+            .then((response) => {
+              console.log("Sucesso", response)
+            })
+            .catch((error) => {
+              console.log("Erro", error)
+            });
 
           return []
         }
@@ -141,7 +150,7 @@ const router = createBrowserRouter([
 
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
-          
+
           var dados;
 
           await axios.get("http://localhost:4003/BuscarEnum" + data.id)
@@ -178,7 +187,7 @@ const router = createBrowserRouter([
         path: "/enum/excluir/:id",
         element: <EnumeradorConsultar />,
         loader: async ({ request, params }) => {
-          
+
           var dados;
 
           await axios.delete("http://localhost:4003/ExcluirEnum", {
@@ -200,10 +209,10 @@ const router = createBrowserRouter([
         path: "/enum/alterar/:enum",
         element: <EnumeradorConsultar />,
         action: async ({ request, params }) => {
-          
+
           const data = JSON.parse(params.enum);
 
-          await axios.post("http://localhost:4003/AlterarEnum",{
+          await axios.post("http://localhost:4003/AlterarEnum", {
             id: data.id,
             tipo: data.tipo,
             descricao: data.descricao
