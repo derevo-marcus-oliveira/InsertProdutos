@@ -121,6 +121,42 @@ const router = createBrowserRouter([
         }
       },
       {
+        path: "/produto/alterar/",
+        element: <ProdutoConsultar />,
+        action: async ({ request, params }) => {
+          debugger
+          const formData = await request.formData();
+          const data = Object.fromEntries(formData);
+
+          if (data.especificacoes) {
+            data.especificacoes = JSON.parse(data.especificacoes);
+          }
+
+          if (data.imagens) {
+            data.imagens = JSON.parse(data.imagens);
+          }
+
+          if (data.avaliacoes) {
+            data.avaliacoes = JSON.parse(data.avaliacoes);
+          }
+
+          if (data.commentarios) {
+            data.commentarios = JSON.parse(data.commentarios);
+          }
+
+
+          await axios.post("http://localhost:4003/Alterar", data)
+            .then((response) => {
+              console.log("Sucesso", response)
+            })
+            .catch((error) => {
+              console.log("Erro", error)
+            });
+
+          return []
+        }
+      },
+      {
         path: "/enum/listar",
         element: <EnumeradorListar />,
         loader: async () => {

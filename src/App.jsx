@@ -38,3 +38,16 @@ function App() {
 }
 
 export default App
+
+
+/* 
+4 soquetes DDR4 DIMM que suportam até 128 GB (capacidade DIMM única de 32 GB) de memória do sistema
+- Processadores AMD Ryzen ™ de 3ª geração: Suporte para módulos de memória DDR4 4000 (OC) / 3600 (OC) / 3333 (OC) / 3200/2933/2667/2400/2133 MHz
+- Nova geração de processadores AMD Ryzen ™ com Radeon ™ Graphics: Suporte para DDR4 4733 (OC) / 4600 (OC) / 4400 (OC) / 4000 (OC) / 3600 (OC) / 3333 (OC) / 3200/2933/2667 / Módulos de memória 2400/2133 MHz
+- Arquitetura de memória de canal duplo
+- Suporte para módulos de memória ECC sem buffer DIMM 1Rx8 / 2Rx8
+- Suporte para módulos de memória DIMM 1Rx8 / 2Rx8 / 1Rx16 sem buffer ECC
+- Suporte para módulos de memória Extreme Memory Profile (XMP)
+
+
+*/

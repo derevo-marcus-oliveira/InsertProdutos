@@ -115,7 +115,7 @@ export default function ProdutoSalvar() {
                                 return (
                                     <li key={item.id_especificacao}>
                                         <span style={{fontWeight: 600}}>{item.especificacao}</span> - {item.especificacao_descricao}
-                                        <button className="btn-remove list-btn-remove"   onClick={() => {
+                                        <button type="button" className="btn-remove list-btn-remove"   onClick={() => {
                                             
                                             var arr = especificacao;
                                             arr.splice(id, 1);
@@ -168,7 +168,7 @@ export default function ProdutoSalvar() {
                                 return (
                                     <li key={item.id_imagem}>
                                         {item.url}
-                                        <button  className="btn-remove list-btn-remove"   onClick={() => {
+                                        <button  type="button" className="btn-remove list-btn-remove"   onClick={() => {
                                             
                                             var arr = imagem;
                                             arr.splice(id, 1);

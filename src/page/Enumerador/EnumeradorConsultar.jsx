@@ -11,9 +11,8 @@ export default function EnumeradorConsultar() {
     const navigate = useNavigate()
 
     useEffect( () => {
-        debugger
+        
         SetDados(data || []);
-        console.log(dados)
     }, [data]);
 
     return (
@@ -56,7 +55,7 @@ export default function EnumeradorConsultar() {
 
                         <div className="form-item">
                             <button className="form-button button-success" onClick={async () => {
-                                debugger
+                                
                                 var id = document.querySelector("#id").value;
                                 var tipo = document.querySelector("#tipo").value;
                                 var descricao = document.querySelector("#descricao").value;

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Form, useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Form, useLoaderData, useActionData, useNavigate } from "react-router-dom";
 
 export default function ProdutoConsultar() {
 
@@ -8,14 +8,21 @@ export default function ProdutoConsultar() {
     const navigate = useNavigate()
 
     useEffect(() => {
-
+        debugger
         SetDados(data || []);
 
-        if (dados.length > 0) {
-            SetEspecificao(dados[0].especificacoes)
-            SetImagem(dados[0].imagens)
-            SetAvaliacao(dados[0].avaliacoes)
-            SetComentario(dados[0].comentarios)
+        if (data && data.length > 0) {
+            if (data[0].especificacoes || data[0].especificacoes.length > 0)
+                SetEspecificao(data[0].especificacoes);
+
+            if (data[0].imagens || data[0].imagens.length > 0)
+                SetImagem(data[0].imagens);
+
+            if (data[0].avaliacoes || data[0].avaliacoes.length > 0)
+                SetAvaliacao(data[0].avaliacoes);
+
+            if (data[0].commentarios || data[0].commentarios.length > 0)
+                SetComentario(data[0].commentarios);
         }
 
     }, [data]);
@@ -29,7 +36,7 @@ export default function ProdutoConsultar() {
     return (
         <>
             <div className="context">
-                <Form method="post" id="form" className="form-container">
+                <Form method="post" id="form" className="form-container" >
 
                     <div className="form-item">
                         <label className="form-label" htmlFor="id_consulta">Id</label>
@@ -53,12 +60,18 @@ export default function ProdutoConsultar() {
                 {dados.length == 0 ? (
                     <h1>NAda</h1>
                 ) : (
-                    <Form method="post" id="form" className="form-container">
+                    <Form method="post" id="form" className="form-container" action="/produto/alterar/">
 
                         <div className="form-context">
 
                             <div className="form-item">
-                                <label className="form-label" htmlFor="Tipo">Tipo - <span style={{background: "black", color: "#fff", padding: "2px 16px"}}>{dados[0].tipo}</span></label>
+                                <label className="form-label" htmlFor="id">Id</label>
+                                <br />
+                                <input className="form-input" type="number" name="id" id="id" value={dados[0].id}/>
+                            </div>
+
+                            <div className="form-item">
+                                <label className="form-label" htmlFor="Tipo">Tipo - <span style={{ background: "black", color: "#fff", padding: "2px 16px" }}>{dados[0].tipo}</span></label>
                                 <br />
                                 <input className="form-input" type="text" name="tipo" id="Tipo" />
                             </div>
@@ -66,20 +79,20 @@ export default function ProdutoConsultar() {
 
                             <div className="form-item">
 
-                                <label className="form-label" htmlFor="Nome">Nome - <span style={{background: "black", color: "#fff", padding: "2px 16px"}}>{dados[0].nome}</span></label>
+                                <label className="form-label" htmlFor="Nome">Nome - <span style={{ background: "black", color: "#fff", padding: "2px 16px" }}>{dados[0].nome}</span></label>
                                 <br />
                                 <input className="form-input" type="text" name="nome" id="Nome" />
                             </div>
 
                             <div className="form-item">
-                                <label className="form-label" htmlFor="Marca">Marca - <span style={{background: "black", color: "#fff", padding: "2px 16px"}}>{dados[0].marca}</span></label>
+                                <label className="form-label" htmlFor="Marca">Marca - <span style={{ background: "black", color: "#fff", padding: "2px 16px" }}>{dados[0].marca}</span></label>
                                 <br />
                                 <input className="form-input" type="text" name="marca" id="Marca" />
 
                             </div>
 
                             <div className="form-item">
-                                <label className="form-label" htmlFor="Modelo">Modelo - <span style={{background: "black", color: "#fff", padding: "2px 16px"}}>{dados[0].modelo}</span></label>
+                                <label className="form-label" htmlFor="Modelo">Modelo - <span style={{ background: "black", color: "#fff", padding: "2px 16px" }}>{dados[0].modelo}</span></label>
                                 <br />
                                 <input className="form-input" type="text" name="modelo" id="Modelo" />
 
@@ -98,7 +111,7 @@ export default function ProdutoConsultar() {
 
                             <h1>Especificações</h1>
 
-                            {/* <div className="form-item">
+                            <div className="form-item">
                                 <label className="form-label" htmlFor="especificacao">Tipo</label>
                                 <br />
                                 <input className="form-input" type="text" id="especificacao" />
@@ -109,7 +122,7 @@ export default function ProdutoConsultar() {
                                 <label className="form-label" htmlFor="especificacao_descricao">Nome</label>
                                 <br />
                                 <input className="form-input" type="text" id="especificacao_descricao" />
-                            </div> 
+                            </div>
 
                             <div className="form-item">
                                 <button className="form-button button-success" type="button" onClick={() => {
@@ -135,24 +148,30 @@ export default function ProdutoConsultar() {
                                 }}>
                                     Add
                                 </button>
-                            </div>*/}
+                            </div>
 
                             <div className="form-list">
-                                {especificacao.map((item => {
+                                {especificacao.map((item, id) => {
 
                                     return (
                                         <li key={item.id_especificacao}>
                                             {item.especificacao} - {item.especificacao_descricao}
+                                            <button type="button" className="btn-remove list-btn-remove" onClick={() => {
+
+                                                var arr = especificacao;
+                                                arr.splice(id, 1);
+                                                SetEspecificao(arr);
+                                            }}>X</button>
                                         </li>
                                     )
-                                }))}
+                                })}
                             </div>
                         </div>
                         <hr />
 
                         <div className="form-context">
                             <h1>Imagens</h1>
-                            {/*         
+
                             <div className="form-item">
                                 <label className="form-label" htmlFor="url">URL</label>
                                 <br />
@@ -180,24 +199,29 @@ export default function ProdutoConsultar() {
                                     Add
                                 </button>
 
-                            </div> */}
+                            </div>
 
                             <div className="form-list">
-                                {imagem.map((item => {
+                                {imagem.map((item, id) => {
 
                                     return (
                                         <li key={item.id_imagem}>
                                             {item.url}
+                                            <button type="button" className="btn-remove list-btn-remove" onClick={() => {
+
+                                                var arr = [];
+                                                SetImagem(arr);
+                                            }}>X</button>
                                         </li>
                                     )
-                                }))}
+                                })}
                             </div>
                         </div>
                         <hr />
 
                         <div className="form-context">
                             <h1>Avaliacoes</h1>
-                            {/* <div className="form-item">
+                            <div className="form-item">
                                 <label className="form-label" htmlFor="avaliacao">Avaliação</label>
                                 <br />
                                 <input className="form-input" type="text" id="avaliacao" />
@@ -235,27 +259,33 @@ export default function ProdutoConsultar() {
                                 }}>
                                     Add
                                 </button>
-                            </div> */}
+                            </div>
 
                             <div className="form-list">
-                                {avaliacao.map((item => {
+                                {avaliacao.map((item, id) => {
 
                                     return (
                                         <li key={item.id_avaliacao}>
                                             {item.avaliacao} - {item.descricao_avaliacao}
+                                            <button className="btn-remove list-btn-remove" onClick={() => {
+
+                                                var arr = avaliacao;
+                                                arr.splice(id, 1);
+                                                SetAvaliacao(arr);
+                                            }}>X</button>
                                         </li>
                                     )
-                                }))}
+                                })}
                             </div>
 
                         </div>
                         <hr />
 
                         <div className="form-context">
-                            
+
                             <h1>Comentários</h1>
 
-                            {/* <div className="form-item">
+                            <div className="form-item">
                                 <label className="form-label" htmlFor="usuario_nome">Usuário</label>
                                 <br />
                                 <input className="form-input " type="text" id="usuario_nome" />
@@ -292,17 +322,23 @@ export default function ProdutoConsultar() {
                                 }}>
                                     Add
                                 </button>
-                            </div> */}
+                            </div>
 
                             <div className="form-list">
-                                {comentario.map((item => {
+                                {comentario.map((item, id) => {
 
                                     return (
                                         <li key={item.id_comentario}>
                                             {item.usuario_nome} - {item.comentario}
+                                            <button className="btn-remove list-btn-remove" onClick={() => {
+
+                                                var arr = comentario;
+                                                arr.splice(id, 1);
+                                                SetComentario(arr);
+                                            }}>X</button>
                                         </li>
                                     )
-                                }))}
+                                })}
                             </div>
 
 
@@ -310,20 +346,13 @@ export default function ProdutoConsultar() {
                         <hr />
 
                         <div className="form-item">
-                            <button className="form-button button-success" onClick={async () => {
-                                debugger
-                                var id = document.querySelector("#id").value;
-                                var tipo = document.querySelector("#tipo").value;
-                                var descricao = document.querySelector("#descricao").value;
+                            <button type="submit" className="form-button button-success" onClick={async () => {
 
-                                if (tipo == "" || descricao == "") {
-                                    return false
-                                }
-                                else {
 
-                                    navigate("/enum/alterar/" + JSON.stringify({ "id": id, "tipo": tipo, "descricao": descricao }))
-                                }
-
+                                document.querySelector('input[name=especificacoes]').setAttribute('value', JSON.stringify(especificacao));
+                                document.querySelector('input[name=imagens]').setAttribute('value', JSON.stringify(imagem));
+                                document.querySelector('input[name=avaliacoes]').setAttribute('value', JSON.stringify(avaliacao));
+                                document.querySelector('input[name=commentarios]').setAttribute('value', JSON.stringify(comentario));
 
                             }}>Alterar</button>
                         </div>
